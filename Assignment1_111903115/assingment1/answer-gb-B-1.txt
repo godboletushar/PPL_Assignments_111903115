@@ -1,0 +1,5 @@
+1   The body  of AddTwo(x)  seems to  be inlined into  the call  of main rendering the function useless (nobody else is calling it). Then why is the definition of AddTwo(x) still there all the way till the last pass (B-1.c.*.optimized)?
+Ans The definition of AddTwo(x) is is still there even at the end of the optimization because the function AddTwo(x) can be declared in another file outside the B-1.c file. The declaration of AddTwo(x) can then be included using (# include) so that it can be used in any other program as well.
+
+2   Is there any way to get rid of it?
+Ans Yes, we can get rid of it by declaring thte function AddTwo(x) to be a static function, so that it can be used only by functions in B-1.c. 

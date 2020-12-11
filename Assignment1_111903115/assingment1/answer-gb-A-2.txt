@@ -1,0 +1,30 @@
+1	How have if-blocks  been translated into GIMPLE  statements? Can you differentiate between conditional and unconditional gotos?
+Ans	if-blocks have been translated into GIMPLE statements by changing the if-block to a set of statements, (possily ending with a goto statement to move out of the 'if-block'), following a label referred to by a goto statement if the condition checked is true. Else-blocks have similarly been changed to a set of statements (possibly ending with a goto statement to move out of the 'else-block') following a label referred to by a goto statement in case the condition checked is false.
+The {} of the if block have been replaced by a [goto <label>]. The statements in the if-block which were earlier specified as
+if(condition)
+{
+	statement1;
+	statement2;
+	.
+	.
+	.
+	statementn;
+}
+has now been changed to 
+if (condition) goto <label1>;
+<label1>:
+statement1;
+statement2;
+.
+.
+.
+statementn;
+goto <label2>;
+
+Conditional gotos are used immediately following [if (condtion)], as a part of the same statement like:
+if (condition) goto <label1>;
+Or immediately following the else keyword in the same statement, like:
+else goto <label2>;
+Unconditional gotos have been used at the end of the statements of the if-block and of the else-block in the original code, as in [goto <label2>] in the above example.
+2.	Repeat  the  above compilation,  but  now  asking for  another  dump that of  the pass  "cfg".  View  this  pass  and say  whether  this representation makes it easier to  read and understand GIMPLEs. Draw the control-flow graph  of the program A-2.c on a  piece of paper by looking at the CFG dump.
+Ans	No, this makes it more difficult to read and understand GIMPLEs.

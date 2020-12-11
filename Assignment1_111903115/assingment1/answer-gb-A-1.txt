@@ -1,0 +1,33 @@
+Note:When gimplification encounters a subexpression which is too complex, it creates a new temporary variable to hold the value of the subexpression, and adds a new statement to initialize it before the current statement. These special temporaries are known as `expression temporaries', and are allocated using get_formal_tmp_var. The compiler tries to always evaluate identical expressions into the same temporary, to simplify elimination of redundant calculations.
+
+We can only use expression temporaries when we know that it will not be reevaluated before its value is used, and that it will not be otherwise modified1. Other temporaries can be allocated using get_initialized_tmp_var or create_tmp_var.
+
+Currently, an expression like a = b + 5 is not reduced any further. We tried converting it to something like
+
+       T1 = b + 5;
+       a = T1;
+but this bloated the representation for minimal benefit. However, a variable which must live in memory cannot appear in an expression; its value is explicitly loaded into a temporary first. Similarly, storing the value of an expression to a memory variable goes through a temporary.
+
+
+
+
+Answers-gb-A-1.txt
+1	How  do the  declarations  look in  the  GIMPLE? Specifically,  what happens to multiple  variables declared and initialized  on the same
+	line? What happens to global declaration [int Z]?
+Ans     1. All the local variables declared have been declared at the beginning of the main() function in GIMPLE, apparently irrespective of where they had been declared in the original C file. However, the order of declaration of variables has been maintained the same as in the original C file.
+	2. All the variable initialisations that were done in the original C file, have now been first declared and later separately assigned the value with which they had been initialised in the original C file. The value assigned to the variable of type double has been changed to scientific notation in the GIMPLE file.
+	3. The global declaration [int Z] appears to be missing in GIMPLE.
+	4. The return type void of the main function is also missing in GIMPLE.
+
+2.      How are complex  expressions such as [c  = a * b +  25] broken down? Can you  determine a  rule as  to when  temporary variables  will be introduced?
+Ans	Temporary variables are used for complex expressions such as [c = a * b + 25]. First, [a*b] is calculated and stored in a temporary variable _1. After this, [_1 + 25] is assigned to c. Complex expressions involving more than one variable are evaluated by using temporary variables. Temporary variables are also used for using the values of global variables in expressions, or for storing the value of an expression in a global variable.
+
+
+3  	How are  floats/doubles represented in  GIMPLE? What happens  when a float/double is assigned to an integer in [Z = r]?
+Ans	Floating-point values are represented in exponential form in GIMPLE. [34.5] has changed to [3.45e+1].
+	When a float is assigned to an int in [Z = r], a temporary variable called [_2] is created. [_2] is then assigned the value of [(int) r] (after casting to int). Then, the value of the temporary variable _2 is copied to the global variable Z.
+
+4   	How  are reads/writes  to the  global variable  Z performed?  Why is there a temporary introduced for the statement [Z = Z  + 1] but not for the statements [q = Z] or [Z = p]?
+Ans 	Read/writes to the global variable Z involve either local variables used in the original code, or temporary variables introduced on compilation.
+On reading the GIMPLE file, it looks like the value of a global variable is never directly used in an expression (except assigning to a local or temporary variable) or function call. Instead, for using the value of a global variable, the value of the global variable is first copied to a temporary variable. Then this temporary variable is used. For storing a value in the global variable, the value to be stored is first evaluated and stored in a temporary variable, before copying that value from the temporary to the global.
+So, Z = Z + 1 first copies the value of Z to a temporary variable Z.0_3, then uses that temporary variable in the right hand side expression in place of the variable Z to evaluate Z.0_3 + 1 and store that value in another temporary variable _4. Then, the global variable Z is assigned the value of the temporary variable _4.

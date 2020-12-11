@@ -1,0 +1,9 @@
+1   How many  times is the expression  (a + c) computed  in the original code (as seen in the SSA pass)? What about after the FRE pass?
+Ans The expression (a + c) has been computed twice in the original code as seen in the SSA pass. In and after the FRE pass, (a + c) has been computed only once.
+
+2   Have  there been  any more  optimizations  after FRE?  How will  you check?
+Ans We can check for more optimizations after FRE by checking the optimized file at the end (B-4.c.*.optimized). There has been no more optimization after the FRE pass. The only difference is that the temporary variable version numbers used by the compiler have changed from a_4, c_5, b_6 and c_7 to a_3, c_4, b_5 and b_6 respectively.
+
+3   Why did  we have  to put a  "return b" in  this assignment?  What if "return b" is changed to "return 0"? Will it make any difference?
+Ans We had to use "return b" because the function has only local variables, and no way of returning any useful data otherwise, since all the local variables get destroyed at the end of the function call. 
+If "return b" is changed to "return 0", the remaining instructions in the function body are deleted by the end of optimization, since the function doesn't cause any change outside its local variables and returns a constant value that doesn't need to be calculated.

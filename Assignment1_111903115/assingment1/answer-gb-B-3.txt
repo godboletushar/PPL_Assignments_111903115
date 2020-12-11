@@ -1,0 +1,2 @@
+1   In the file B-3.c, what values  can variable `a' take? Will the `if' condition [a  < 4] ever  be true?  Inspect the file  B-3.c.*.vrp1 to analyze the dump.
+Ans The variable 'a' can take integer values from 4 to 99, both inclusive. The 'if' condition will never be true since 'a' has been assigned the value 4 before the condition was first checked, and later incremented up to 99.

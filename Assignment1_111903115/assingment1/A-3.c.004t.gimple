@@ -1,0 +1,38 @@
+main ()
+{
+  int D.1807;
+
+  {
+    int sum;
+    int i;
+    int j;
+
+    sum = 0;
+    goto <D.1798>;
+    <D.1797>:
+    sum = sum * 2;
+    <D.1798>:
+    if (sum <= 99) goto <D.1797>; else goto <D.1799>;
+    <D.1799>:
+    i = 0;
+    goto <D.1804>;
+    <D.1803>:
+    j = 0;
+    goto <D.1801>;
+    <D.1800>:
+    _1 = i * j;
+    sum = sum + _1;
+    j = j + 1;
+    <D.1801>:
+    if (j <= 49) goto <D.1800>; else goto <D.1802>;
+    <D.1802>:
+    i = i + 1;
+    <D.1804>:
+    if (i <= 24) goto <D.1803>; else goto <D.1805>;
+    <D.1805>:
+  }
+  D.1807 = 0;
+  return D.1807;
+}
+
+

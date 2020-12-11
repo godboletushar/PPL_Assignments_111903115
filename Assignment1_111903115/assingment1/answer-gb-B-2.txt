@@ -1,0 +1,2 @@
+1   What will happen if "a = a + N" is replaced by "a = a + 1"?
+Ans If "a = a + N" is replaced by "a = a + 1", the main function simply returns 14, that is, the final value after calculation. When N is replaced by a constant value, the compiler seems to have calculated the result using that constant, in order to optimise the code and reduce execution time, by using the calculated return value.

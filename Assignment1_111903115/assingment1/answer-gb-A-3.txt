@@ -1,0 +1,7 @@
+1   Identify the basic blocks that correspond  to the while loop. How is the GIMPLE for a while loop different from simple if-else jumps?
+Ans <bb3> and <bb4> are the basic blocks corresponding to the while loop. The GIMPLE for a while loop is syntactically the same as an if-else jump. The only difference in GIMPLE for 'while' loops and if-else is that in the case of while loops, control is transferred to a particular basic block if the condition is true, even if that basic block has been executed earlier; whereas in regular if-else jumps, no block is executed more than once.
+
+2   Identify the  basic blocks  for the nested  for-loop. You  should be able  to identify  intializers, conditions  and increments  for each loop as  well as  the shared  inner body.  Is there  really anything special about a for-loop as compared to a while-loop?
+Ans Basic blocks <bb5>, <bb6>, <bb7>, <bb8>, <bb9> and <bb10> are the basic blocks for the nested for-loop. The initialisers are <bb5> for the i (the outer loop) and <bb6> for j (the inner loop). The conditions are <bb10> for i (the outer loop) and <bb8> for j (the inner loop). <bb9> is the increment for i (the outer for loop) and j is incremented at the end of the block of the body of the inner loop (at the end of <bb7>). The inner body of the loop, including the increment for the inner variable is <bb7>.
+For-loops and while-loops can have the same code in GIMPLE. So, there is no real difference between the two. 
+

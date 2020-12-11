@@ -1,0 +1,27 @@
+main ()
+{
+  int D.1802;
+
+  {
+    int a;
+    int b;
+    int c;
+    int d;
+
+    d = 10;
+    if (c > d) goto <D.1799>; else goto <D.1800>;
+    <D.1799>:
+    a = 3;
+    b = 2;
+    goto <D.1801>;
+    <D.1800>:
+    a = 2;
+    b = 3;
+    <D.1801>:
+    c = a + b;
+  }
+  D.1802 = 0;
+  return D.1802;
+}
+
+

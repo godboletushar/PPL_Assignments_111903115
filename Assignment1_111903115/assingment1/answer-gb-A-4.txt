@@ -1,0 +1,8 @@
+1   How is array declaration and initialization handled?
+Ans Arrays are declared at the beginning of the function with the other variables. Initialisation is done by first declaring an array with the given number of elements and then separately assigning the given value to the corresponding element of the array.
+
+2   Why does the statement a[i] = b[i] get broken down to two steps with an intermediate temporary?
+Ans GIMPLE can perform only one operation per statement. Accessing array elements by index involves calculating the array element address by adding the element address offset to the address of the first element of the array. So, the statement is broken down into two steps with an intermediate temporary.
+
+3   Why are there CLOBBER statements at the end?
+Ans The CLOBBER statements at the end are used to free the memory locations (in the stack) occupied by the local arrays a and b before returning from the function. Clobbering means freeing a memory location, which allows overwriting or destroying the data stored there.
